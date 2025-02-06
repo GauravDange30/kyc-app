@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend  # Path to the React app directory
+      dockerfile: Dockerfile
+    ports:
+      - "3001:80"  # Map port 80 of the container to port 3000 on the host
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:8001  # Use the backend service name
+    networks:
+      - mynetwork
+
+  backend:
+    build:
+      context: ./backend  # Path to the FastAPI app directory
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"  # Map port 8001 of the container to port 8001 on the host
+    environment:
+      - ENVIRONMENT=production
+      - MONGO_URI=mongodb://host.docker.internal:27018/  # Use host.docker.internal to connect to local MongoDB
+    depends_on:
+      - mongo
+    networks:
+      - mynetwork
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo-container2
+    restart: always
+    ports:
+      - "27018:27018"  # Expose MongoDB port to the host
+    networks:
+      - mynetwork
+    # This service is not strictly necessary since you are using a local MongoDB instance
+
+networks:
+  mynetwork:

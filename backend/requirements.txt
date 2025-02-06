@@ -1,0 +1,11 @@
+fastapi==0.112.2
+pydantic==2.8.2
+pydantic_core==2.20.1
+pymongo==4.8.0
+python-dotenv==1.0.1
+pytz==2024.1
+requests==2.31.0
+uvicorn==0.30.6
+colorlog==6.8.2
+requests-toolbelt==0.10.1
+urllib3==1.25.11
